@@ -14105,7 +14105,7 @@ div.jp-OutputPrompt {
 <h2 id="Investigation-Overview">Investigation Overview<a class="anchor-link" href="#Investigation-Overview">&#182;</a></h2><p>Goal: Produce a concise slide deck that highlights temporal and user-type patterns in trip counts and durations, and surface operational recommendations.</p>
 <p>Audience: Operations, program managers, and instructors grading the project.</p>
 <p>Approach: compute summary metrics (peak hours, subscriber share, median durations), produce three polished visuals, and auto-fill a Key Findings and Executive Summary slide for export.</p>
-<p>Deliverables: 3 visuals (hourly counts + median durations, weekday×hour heatmap, top start stations) and two auto-generated slides: '# Key Findings' and '# Executive Summary'.</p>
+<p>Deliverables: 3 visuals (hourly counts + median durations, weekday×hour heatmap, top start stations) and auto-generated a slide: 'Key Findings'.</p>
 <h2 id="Dataset-Overview">Dataset Overview<a class="anchor-link" href="#Dataset-Overview">&#182;</a></h2><p>Cleaned February 2019 Ford GoBike trips (see <code>data/gobike_cleaned.csv</code>). The notebook falls back to the raw CSV if the cleaned file is not present.</p>
 <blockquote><p>Notes: Run the data-loading cell before executing visuals. Run the auto-fill cells to update slides in-place before exporting with nbconvert.</p>
 </blockquote>
@@ -14120,7 +14120,9 @@ that when the notebook is rendered as http slides, those cells won't show up.</p
 
 </div>
 </div>
-</aside></section></section><section><section>
+</aside><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs jp-mod-noInput ">
+
+</div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="Visualization-1">Visualization 1<a class="anchor-link" href="#Visualization-1">&#182;</a></h2><h2 id="(A)-Hourly-trip-counts-by-user_type">(A) Hourly trip counts by user_type<a class="anchor-link" href="#(A)-Hourly-trip-counts-by-user_type">&#182;</a></h2><h2 id="(B)-Median-trip-duration-(min)-by-hour">(B) Median trip duration (min) by hour<a class="anchor-link" href="#(B)-Median-trip-duration-(min)-by-hour">&#182;</a></h2><h3 id="Question">Question<a class="anchor-link" href="#Question">&#182;</a></h3><p>What patterns in hourly trip counts and median duration by user type help explain commute vs leisure usage?</p>
 <h3 id="Assumptions">Assumptions<a class="anchor-link" href="#Assumptions">&#182;</a></h3><ul>
