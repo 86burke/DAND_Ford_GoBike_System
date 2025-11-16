@@ -1,8 +1,6 @@
 # Ford GoBike — Workspace Summary
 
-Repository root: This workspace contains two project notebooks and a data folder used by those notebooks.
-
-Files in this repository (exact names present in workspace):
+Files in this repository:
 
 - `Part_I_exploration_template.ipynb` — exploratory notebook used to clean, inspect, and export the dataset.
 - `Part_II_slide_deck_template.ipynb` — slide-deck notebook containing visualization sections and automation cells related to the Key Findings slide.
@@ -11,7 +9,7 @@ Files in this repository (exact names present in workspace):
 
 Data: typical columns present in the CSV files include `start_time`, `end_time`, `start_station_id`, `start_station_name`, `end_station_id`, `end_station_name`, `bike_id`, `user_type`, `member_birth_year`, `member_gender`, and `duration_sec` (the notebooks derive `duration_min`).
 
-Key notebook behaviors (current implementation in the workspace):
+Key notebook behaviors:
 
 - `Part_I_exploration_template.ipynb` performs data cleaning and writes an export file `data/gobike_cleaned.csv` when executed.
 
@@ -21,13 +19,13 @@ Key notebook behaviors (current implementation in the workspace):
 	- An automation cell (store-only) that computes summary metrics — peak hour, subscriber share, median durations by user type, and top start stations — and writes those values into the notebook file metadata under `nb['metadata']['key_findings']`. This cell stores values on-disk and does not overwrite the Key Findings markdown slide by itself.
 	- A Key Findings markdown slide that contains placeholder tokens. Substitution of stored values into the markdown slide is performed only if an explicit substitution helper cell is run (the notebook may include such a helper as a separate, opt-in step).
 
-Cell references (numbered from 1 in the notebook UI):
+Cell references:
 
 - The defensive data-loading cell appears as the first code cell that loads data (run this before visualizations).
 - The store-only auto-fill cell computes and stores key metrics (the file metadata key is `key_findings`).
 - The Key Findings slide is a markdown cell in the Part II notebook that contains placeholder tokens for the stored values.
 
-Exact runtime steps to reproduce the prepared slide deck (factual):
+Exact runtime steps to reproduce the prepared slide deck:
 
 1. Create and activate a Python environment and install required packages. A minimal set used in the notebooks is `pandas`, `numpy`, `matplotlib`, `seaborn`, `jupyter`, and `nbformat`.
 
@@ -49,7 +47,7 @@ pip install pandas numpy matplotlib seaborn jupyter nbformat
 - The visualization cells to produce the presentation charts.
 - The store-only auto-fill cell to write summary metrics into the notebook metadata key `key_findings`.
 
-4. To export and serve slides while executing the notebook (ensures outputs and stored metadata are up-to-date):
+4. To export and serve slides while executing the notebook:
 
 ```bash
 jupyter nbconvert Part_II_slide_deck_template.ipynb \
@@ -60,7 +58,7 @@ jupyter nbconvert Part_II_slide_deck_template.ipynb \
 		--no-input --no-prompt
 ```
 
-Notes on stored metrics (factual):
+Notes on stored metrics:
 
 - The store-only auto-fill cell writes a dictionary of values to `nb['metadata']['key_findings']` in the on-disk notebook file. That metadata entry contains both simple keys (e.g., `peak_hour`, `subs_pct`, `median_sub`, `median_cust`, `top3`) and a placeholders map for programmatic substitution.
 - Substitution of stored values into the Key Findings markdown slide requires an explicit substitution step (a helper cell) if you want the slide text updated programmatically; the store-only cell itself only writes metadata.
