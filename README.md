@@ -1,75 +1,38 @@
- # Ford GoBike — Part I: Dataset Exploration
- ## by John Burke 
+# Ford GoBike — Workspace Summary
 
- This repository contains a short exploratory analysis of the Ford GoBike February 2019 trip data and a cleaned export used for downstream analysis and presentation.
+Repository root: This workspace contains two project notebooks and a data folder used by those notebooks.
 
- ## Dataset
+Files in this repository (exact names present in workspace):
 
- - Source files (included):
-     - `data/201902-fordgobike-tripdata.csv` — raw trip records CSV
-     - `data/gobike_cleaned.csv` — cleaned/exported dataset produced by the notebook
+- `Part_I_exploration_template.ipynb` — exploratory notebook used to clean, inspect, and export the dataset.
+- `Part_II_slide_deck_template.ipynb` — slide-deck notebook containing visualization sections and automation cells related to the Key Findings slide.
+- `data/201902-fordgobike-tripdata.csv` — raw February 2019 trip data CSV included in the `data/` folder.
+- `data/gobike_cleaned.csv` — cleaned dataset CSV used as the preferred input for Part II (created by Part I when run).
 
- - Typical columns (examples):
-     - start_time, end_time (timestamps)
-     - start_station_id / start_station_name, end_station_id / end_station_name
-     - bike_id, user_type (Subscriber / Customer)
-     - member_birth_year, member_gender
-     - duration_sec (and derived `duration_min`)
+Data: typical columns present in the CSV files include `start_time`, `end_time`, `start_station_id`, `start_station_name`, `end_station_id`, `end_station_name`, `bike_id`, `user_type`, `member_birth_year`, `member_gender`, and `duration_sec` (the notebooks derive `duration_min`).
 
- ## Preprocessing performed (summary)
+Key notebook behaviors (current implementation in the workspace):
 
- - Parsed `start_time` and `end_time` to pandas datetime to extract hour/day and support time-based grouping.
- - Created `duration_min` from `duration_sec` for clearer, human-friendly units.
- - Filtered or flagged implausible durations (very small or extremely long values) for downstream plots and summary statistics.
- - Derived common time features: `start_hour` and `start_weekday` (day name).
- - Saved a cleaned CSV (`data/gobike_cleaned.csv`) so other parts of the project can load a reproducible cleaned dataset.
+- `Part_I_exploration_template.ipynb` performs data cleaning and writes an export file `data/gobike_cleaned.csv` when executed.
 
- ## Exploratory findings (summary)
+- `Part_II_slide_deck_template.ipynb` is arranged as a slide deck and includes:
+	- A defensive data-loading code cell that prefers `data/gobike_cleaned.csv` and falls back to `data/201902-fordgobike-tripdata.csv`. The cell ensures derived fields such as `duration_min` and `start_hour` exist.
+	- Visualization sections that create presentation-quality charts (hourly counts & median duration, weekday×hour heatmap, and top start stations).
+	- An automation cell (store-only) that computes summary metrics — peak hour, subscriber share, median durations by user type, and top start stations — and writes those values into the notebook file metadata under `nb['metadata']['key_findings']`. This cell stores values on-disk and does not overwrite the Key Findings markdown slide by itself.
+	- A Key Findings markdown slide that contains placeholder tokens. Substitution of stored values into the markdown slide is performed only if an explicit substitution helper cell is run (the notebook may include such a helper as a separate, opt-in step).
 
- - Trip duration distribution is strongly right-skewed: most trips are short (many under 30 minutes) with a long tail of much longer rides. Use medians/percentiles or log-scaled plots to summarize central tendency.
- - Strong weekday commute pattern: clear morning and evening peaks on weekdays. Weekends show flatter patterns and different timing for peak activity (often afternoons).
- - User-type differences: `Subscriber` trips dominate counts and tend to have shorter median durations; `Customer` (casual) trips show higher median durations consistent with leisure use.
- - Station concentration: a small set of stations (downtown/transit hubs) account for a large share of trip starts/ends.
- - Demographic fields are partially populated: `member_birth_year` and `member_gender` are useful where present but often contain missing values or require cleaning (plausibility checks on birth years).
- - Long-duration outliers can strongly affect mean-based summaries; medians and trimmed/winsorized statistics give more robust insights.
+Cell references (numbered from 1 in the notebook UI):
 
-````markdown
-# Ford GoBike — Project Overview
-## by John Burke
+- The defensive data-loading cell appears as the first code cell that loads data (run this before visualizations).
+- The store-only auto-fill cell computes and stores key metrics (the file metadata key is `key_findings`).
+- The Key Findings slide is a markdown cell in the Part II notebook that contains placeholder tokens for the stored values.
 
-This repository contains exploratory analysis and a slide-deck template for the February 2019 Ford GoBike trip data.
+Exact runtime steps to reproduce the prepared slide deck (factual):
 
-## Files included
-
-- `Part_I_exploration_template.ipynb` — exploratory notebook used to clean and inspect the dataset.
-- `Part_II_slide_deck_template.ipynb` — slide-deck notebook with three visualization sections and automation cells for storing/publishing key findings.
-- `data/201902-fordgobike-tripdata.csv` — the raw February 2019 trip records CSV (source provided with the repo).
-- `data/gobike_cleaned.csv` — cleaned/exported dataset produced by the notebooks (used as the preferred input for Part II).
-
-## Data schema (typical columns)
-
-- `start_time`, `end_time` (timestamps)
-- `start_station_id`, `start_station_name`, `end_station_id`, `end_station_name`
-- `bike_id`, `user_type` (Subscriber / Customer)
-- `member_birth_year`, `member_gender`
-- `duration_sec` (and derived `duration_min`)
-
-## Notebooks — what they do (factual)
-
-- `Part_I_exploration_template.ipynb` performs cleaning and exploratory analysis and can produce `data/gobike_cleaned.csv` as an export of the cleaned dataset.
-
-- `Part_II_slide_deck_template.ipynb` is organized as a slide deck and includes:
-  - A defensive data-loading cell that prefers `data/gobike_cleaned.csv` and falls back to the raw CSV if needed (it also ensures derived fields like `duration_min` and `start_hour` exist).
-  - Three visualization sections (hourly counts & median duration, weekday×hour heatmap, top start stations).
-  - An automation cell that computes summary metrics (peak hour, subscriber share, median durations, top start stations) and stores those values into the notebook's on-disk metadata under the key `key_findings`. This store-only behavior writes values into `nb['metadata']['key_findings']` and does not automatically overwrite the Key Findings markdown cell.
-  - A Key Findings markdown slide that contains placeholder tokens. Substitution into that slide is performed only if an explicit substitution helper cell is run (the notebook may include a helper to perform the substitution separately).
-
-## Runtime steps (reproduce)
-
-1. Create and activate a Python environment and install required packages (minimal set): `pandas`, `numpy`, `matplotlib`, `seaborn`, `jupyter`, `nbformat`.
+1. Create and activate a Python environment and install required packages. A minimal set used in the notebooks is `pandas`, `numpy`, `matplotlib`, `seaborn`, `jupyter`, and `nbformat`.
 
 ```bash
-# Create & activate a venv (example)
+# create & activate a venv (example)
 python -m venv .venv
 # Bash (Git Bash / WSL):
 source .venv/Scripts/activate
@@ -78,27 +41,29 @@ pip install --upgrade pip
 pip install pandas numpy matplotlib seaborn jupyter nbformat
 ```
 
-2. Open `Part_I_exploration_template.ipynb` and run top-to-bottom to regenerate `data/gobike_cleaned.csv` (if you need the cleaned CSV).
+2. Run `Part_I_exploration_template.ipynb` if you need to regenerate `data/gobike_cleaned.csv`.
 
-3. Open `Part_II_slide_deck_template.ipynb` and run the following cells in order to prepare slides:
+3. In `Part_II_slide_deck_template.ipynb` run the following cells (in order):
 
-- Run the data-loading cell (it creates `gobike_clean` with derived fields).
-- Run the visualization cells to generate the charts and any summary variables used interactively.
-- To store computed summary metrics into the notebook (for later substitution), run the store-only auto-fill cell. That cell writes values to `nb['metadata']['key_findings']` on disk.
+- The data-loading cell (creates `gobike_clean` and derived fields).
+- The visualization cells to produce the presentation charts.
+- The store-only auto-fill cell to write summary metrics into the notebook metadata key `key_findings`.
 
-4. Export and serve slides (executes the notebook during conversion so outputs and stored metadata are up-to-date):
+4. To export and serve slides while executing the notebook (ensures outputs and stored metadata are up-to-date):
 
 ```bash
 jupyter nbconvert Part_II_slide_deck_template.ipynb \
-    --to slides \
-    --execute \
-    --ExecutePreprocessor.timeout=600 \
-    --post serve \
-    --no-input --no-prompt
+		--to slides \
+		--execute \
+		--ExecutePreprocessor.timeout=600 \
+		--post serve \
+		--no-input --no-prompt
 ```
 
-This command executes the notebook and then serves the generated slides via a local HTTP page.
+Notes on stored metrics (factual):
+
+- The store-only auto-fill cell writes a dictionary of values to `nb['metadata']['key_findings']` in the on-disk notebook file. That metadata entry contains both simple keys (e.g., `peak_hour`, `subs_pct`, `median_sub`, `median_cust`, `top3`) and a placeholders map for programmatic substitution.
+- Substitution of stored values into the Key Findings markdown slide requires an explicit substitution step (a helper cell) if you want the slide text updated programmatically; the store-only cell itself only writes metadata.
 
 ````
-
 
