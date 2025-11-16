@@ -47,7 +47,7 @@
         - Message: highlight practical differences in behavior and where the system is most heavily used.
         - Design change: simplify to 2–3 clear charts, use a consistent color palette, and annotate important stations/time windows.
 
- ## Visual design notes (from exploration → presentation)
+ ## Visual design notes 
 
  - Replace many exploratory plots with a small set of polished charts (2–4) that answer the chosen questions.
  - Use medians, percentiles, and log-scale views for duration to handle skew. Annotate axes clearly.
@@ -60,20 +60,46 @@
  - `data/gobike_cleaned.csv` — cleaned export created by the notebook
  - `Part_II_slide_deck_template.ipynb` — starter slide-deck notebook for presentation
 
- ## How to reproduce locally (recommended)
+ ## How to reproduce locally
 
- 1. Create a Python environment with pandas, numpy, matplotlib, seaborn. Example (Windows / bash):
+ 1. Create a Python environment and install dependencies. A minimal set includes pandas, numpy, matplotlib, seaborn, jupyter, and nbformat.
 
  ```bash
+ # create & activate a venv (Windows examples below)
  python -m venv .venv
- source .venv/Scripts/activate  # or: .venv\Scripts\activate (PowerShell/CMD variations)
+ # Bash (Git Bash / WSL):
+ source .venv/Scripts/activate
+ # PowerShell:
+ # .\.venv\Scripts\Activate.ps1
+ # CMD:
+ # .\.venv\Scripts\activate.bat
+
  pip install --upgrade pip
- pip install pandas matplotlib seaborn
+ pip install pandas numpy matplotlib seaborn jupyter nbformat
  ```
 
  2. Open `Part_I_exploration_template.ipynb` in Jupyter/VS Code and run cells top-to-bottom to reproduce the analysis and regenerate `data/gobike_cleaned.csv`.
 
- 3. Export slides / HTML as needed from the notebook UI for submission.
+ 3. Presentation (Part II slide deck)
+
+ - The slide-deck notebook is `Part_II_slide_deck_template.ipynb`. It includes three polished visualizations and an auto-fill code cell that computes summary numbers and writes them into the Key findings slide.
+
+ - To populate the Key findings slide (programmatically):
+     1. Open `Part_II_slide_deck_template.ipynb` in Jupyter or VS Code.
+     2. Run the code cell titled "Auto-fill key findings and update the markdown slide in-place" (located immediately after the blank Key findings markdown slide). This cell computes `peak_hour`, `subs_pct`, median durations, `top3` stations and writes a headered markdown block into the Key findings slide. The code cell is marked to be skipped in slides and prints only a short success message, so it won't show the computed text in the slides output.
+
+ - To export the slides and ensure outputs are up-to-date, execute the notebook during conversion. From your shell (bash on Windows), run:
+
+ ```bash
+ jupyter nbconvert Part_II_slide_deck_template.ipynb \
+     --to slides \
+     --execute \
+     --ExecutePreprocessor.timeout=600 \
+     --post serve \
+     --no-input --no-prompt
+ ```
+
+ This will execute the notebook (so the visualizations and the auto-filled Key findings are run/updated) and then serve the slides in a browser.
 
  ## Notes / limitations
 
@@ -82,6 +108,3 @@
 
  ---
 
- If you want, I can:
- - run a quick syntax/consistency scan of the notebook cells, or
- - add a short "How I made the slides" section to the slide-deck template.

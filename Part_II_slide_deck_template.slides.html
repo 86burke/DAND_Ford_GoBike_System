@@ -14102,13 +14102,13 @@ div.jp-OutputPrompt {
 </div>
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Investigation-Overview">Investigation Overview<a class="anchor-link" href="#Investigation-Overview">&#182;</a></h2><p>This slide deck tells the story of how usage differs across user types and time: when trips occur, how long they last, and how patterns vary by weekday vs weekend.</p>
-<ul>
-<li>Goal: Explain differences in trip counts and trip durations between <code>Subscriber</code> and <code>Customer</code>, emphasizing commute peaks and leisure usage.</li>
-<li>Audience takeaway: Subscribers concentrate around weekday commute hours with shorter median trips; Customers ride more midday and on weekends with longer median trips.</li>
-</ul>
-<h2 id="Dataset-Overview">Dataset Overview<a class="anchor-link" href="#Dataset-Overview">&#182;</a></h2><p>Data: Feb 2019 trip records (start/end timestamps, duration in seconds, user_type, stations, and basic demographics).</p>
-<p>Notes: the deck uses the cleaned CSV generated in Part I — <code>data/gobike_cleaned.csv</code> — which includes parsed datetimes, a <code>duration_min</code> column, and filters for implausible durations. Wherever a visualization examines time-of-day, <code>start_time</code> is used (hour extracted to <code>start_hour</code>).</p>
+<h2 id="Investigation-Overview">Investigation Overview<a class="anchor-link" href="#Investigation-Overview">&#182;</a></h2><p>Goal: Produce a concise slide deck that highlights temporal and user-type patterns in trip counts and durations, and surface operational recommendations.</p>
+<p>Audience: Operations, program managers, and instructors grading the project.</p>
+<p>Approach: compute summary metrics (peak hours, subscriber share, median durations), produce three polished visuals, and auto-fill a Key Findings and Executive Summary slide for export.</p>
+<p>Deliverables: 3 visuals (hourly counts + median durations, weekday×hour heatmap, top start stations) and two auto-generated slides: '# Key Findings' and '# Executive Summary'.</p>
+<h2 id="Dataset-Overview">Dataset Overview<a class="anchor-link" href="#Dataset-Overview">&#182;</a></h2><p>Cleaned February 2019 Ford GoBike trips (see <code>data/gobike_cleaned.csv</code>). The notebook falls back to the raw CSV if the cleaned file is not present.</p>
+<blockquote><p>Notes: Run the data-loading cell before executing visuals. Run the auto-fill cells to update slides in-place before exporting with nbconvert.</p>
+</blockquote>
 
 </div>
 </div><aside class="notes">
@@ -14122,7 +14122,15 @@ that when the notebook is rendered as http slides, those cells won't show up.</p
 </div>
 </aside></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Visualization-1">Visualization 1<a class="anchor-link" href="#Visualization-1">&#182;</a></h2><h2 id="(A)-Hourly-trip-counts-by-user_type">(A) Hourly trip counts by user_type<a class="anchor-link" href="#(A)-Hourly-trip-counts-by-user_type">&#182;</a></h2><h2 id="(B)-Median-trip-duration-(min)-by-hour">(B) Median trip duration (min) by hour<a class="anchor-link" href="#(B)-Median-trip-duration-(min)-by-hour">&#182;</a></h2>
+<h2 id="Visualization-1">Visualization 1<a class="anchor-link" href="#Visualization-1">&#182;</a></h2><h2 id="(A)-Hourly-trip-counts-by-user_type">(A) Hourly trip counts by user_type<a class="anchor-link" href="#(A)-Hourly-trip-counts-by-user_type">&#182;</a></h2><h2 id="(B)-Median-trip-duration-(min)-by-hour">(B) Median trip duration (min) by hour<a class="anchor-link" href="#(B)-Median-trip-duration-(min)-by-hour">&#182;</a></h2><h3 id="Question">Question<a class="anchor-link" href="#Question">&#182;</a></h3><p>What patterns in hourly trip counts and median duration by user type help explain commute vs leisure usage?</p>
+<h3 id="Assumptions">Assumptions<a class="anchor-link" href="#Assumptions">&#182;</a></h3><ul>
+<li><code>start_time</code> parsed as datetime and <code>duration_min</code> computed.</li>
+<li>Trip durations are right-skewed; medians better reflect central tendency.</li>
+</ul>
+<h3 id="Expected-answer">Expected answer<a class="anchor-link" href="#Expected-answer">&#182;</a></h3><ul>
+<li>Expect Subscriber peaks during commute hours (morning/evening) with shorter medians; Customers peak midday/weekends with longer medians. </li>
+</ul>
+
 </div>
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
@@ -14165,9 +14173,25 @@ Hour with highest average median duration: 3
 
 </div>
 
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Observation">Observation<a class="anchor-link" href="#Observation">&#182;</a></h3><ul>
+<li>What I observed: summarize the plotted peaks/medians and how Subscribers vs Customers differ (e.g., Subscribers concentrated at hours X–Y with median Z; Customers peak at ...).</li>
+<li>Follow-up checks: consider showing percentile bands or log-transform of <code>duration_min</code> to handle skew; annotate commute windows.</li>
+</ul>
+
+</div>
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Visualization-2">Visualization 2<a class="anchor-link" href="#Visualization-2">&#182;</a></h2><h2 id="Heatmap-showing-median-trip-duration-(minutes)-with-weekdays-on-the-y-axis-and-hour-of-day-on-the-x-axis.-Darker-cells-indicate-longer-median-durations.">Heatmap showing median trip duration (minutes) with weekdays on the y-axis and hour of day on the x-axis. Darker cells indicate longer median durations.<a class="anchor-link" href="#Heatmap-showing-median-trip-duration-(minutes)-with-weekdays-on-the-y-axis-and-hour-of-day-on-the-x-axis.-Darker-cells-indicate-longer-median-durations.">&#182;</a></h2>
+<h1 id="Visualization-2">Visualization 2<a class="anchor-link" href="#Visualization-2">&#182;</a></h1><h2 id="Heatmap-showing-median-trip-duration-(minutes)-with-weekdays-on-the-y-axis-and-hour-of-day-on-the-x-axis.-Darker-cells-indicate-longer-median-durations.">Heatmap showing median trip duration (minutes) with weekdays on the y-axis and hour of day on the x-axis. Darker cells indicate longer median durations.<a class="anchor-link" href="#Heatmap-showing-median-trip-duration-(minutes)-with-weekdays-on-the-y-axis-and-hour-of-day-on-the-x-axis.-Darker-cells-indicate-longer-median-durations.">&#182;</a></h2><h3 id="Question">Question<a class="anchor-link" href="#Question">&#182;</a></h3><p>How does median trip duration vary across weekdays and hours? Which weekday-hour cells show the longest median trips?</p>
+<h3 id="Assumptions">Assumptions<a class="anchor-link" href="#Assumptions">&#182;</a></h3><ul>
+<li>Weekday names are ordered Monday→Sunday.</li>
+<li>Cells with few trips may have noisy medians; consider masking low-count cells or annotating counts.</li>
+</ul>
+<h3 id="Expected-answer">Expected answer<a class="anchor-link" href="#Expected-answer">&#182;</a></h3><ul>
+<li>Expect longer median durations on weekends and during afternoon leisure hours.</li>
+</ul>
+
 </div>
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
@@ -14198,9 +14222,25 @@ Hour with highest average median duration: 3
 
 </div>
 
+</div></section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Observation">Observation<a class="anchor-link" href="#Observation">&#182;</a></h3><ul>
+<li>What I observed: note which weekday-hour cells have the highest median durations and whether weekends show systematically higher medians.</li>
+<li>Follow-up: overlay or show counts per cell to avoid over-interpreting cells with few observations.</li>
+</ul>
+
+</div>
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Visualization-3">Visualization 3<a class="anchor-link" href="#Visualization-3">&#182;</a></h2><h2 id="Top-10-start-stations-by-trip-count-(split-by-user_type)">Top 10 start stations by trip count (split by user_type)<a class="anchor-link" href="#Top-10-start-stations-by-trip-count-(split-by-user_type)">&#182;</a></h2>
+<h2 id="Visualization-3">Visualization 3<a class="anchor-link" href="#Visualization-3">&#182;</a></h2><h2 id="Top-10-start-stations-by-trip-count-(split-by-user_type)">Top 10 start stations by trip count (split by user_type)<a class="anchor-link" href="#Top-10-start-stations-by-trip-count-(split-by-user_type)">&#182;</a></h2><h3 id="Question">Question<a class="anchor-link" href="#Question">&#182;</a></h3><p>Which start stations generate the most trips and how does the user_type split look among the top stations?</p>
+<h3 id="Assumptions">Assumptions<a class="anchor-link" href="#Assumptions">&#182;</a></h3><ul>
+<li>Station names are normalized; top-N by total trips is representative of busiest hubs.</li>
+<li>Small stations with similar names may need consolidation.</li>
+</ul>
+<h3 id="Expected-answer">Expected answer<a class="anchor-link" href="#Expected-answer">&#182;</a></h3><ul>
+<li>Expect downtown/transit-hub stations to dominate and Subscribers to be the majority at commute hubs.</li>
+</ul>
+
 </div>
 </div></section><section><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
 
@@ -14223,41 +14263,19 @@ Hour with highest average median duration: 3
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput ">
-
-<div class="jp-Cell-outputWrapper">
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre># Key findings
-
-- Peak trip hour: 17
-- Subscriber share of trips: 89.2%
-- Median trip duration — Subscriber: 8.2 min; Customer: 13.2 min
-- Top 3 start stations: 1) Market St at 10th St, 2) San Francisco Caltrain Station 2  (Townsend St at 4th St), 3) Berry St at 4th St
-- Practical implication: Consider adding capacity during peak commute hours at top stations.
-
-Notebook updated: Key findings slide filled with computed values.
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div><aside class="notes">
-
+</div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<blockquote><p><strong>Generate Slideshow</strong>: Once you're ready to generate your slideshow, use the <code>jupyter nbconvert</code> command to generate the HTML slide show. . From the terminal or command line, use the following expression.</p>
-</blockquote>
+<h3 id="Observation">Observation<a class="anchor-link" href="#Observation">&#182;</a></h3><ul>
+<li>What I observed: list the top stations and the Subscriber/Customer breakdown for those stations.</li>
+<li>Follow-up: consider mapping top stations or normalizing station name variants before final reporting.</li>
+</ul>
 
 </div>
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Key-Findings--Peak-trip-hour:-17--Subscriber-share-of-trips:-89.2%25--Median-trip-duration-%E2%80%94-Subscriber:-8.2-min;-Customer:-13.2-min--Top-3-start-stations:-1)-Market-St-at-10th-St,-2)-San-Francisco-Caltrain-Station-2--(Townsend-St-at-4th-St),-3)-Berry-St-at-4th-St(Run-the-'Auto-fill-key-findings'-code-cell-to-populate-these-values.)">Key Findings- Peak trip hour: 17- Subscriber share of trips: 89.2%- Median trip duration &#8212; Subscriber: 8.2 min; Customer: 13.2 min- Top 3 start stations: 1) Market St at 10th St, 2) San Francisco Caltrain Station 2  (Townsend St at 4th St), 3) Berry St at 4th St(Run the 'Auto-fill key findings' code cell to populate these values.)<a class="anchor-link" href="#Key-Findings--Peak-trip-hour:-17--Subscriber-share-of-trips:-89.2%25--Median-trip-duration-%E2%80%94-Subscriber:-8.2-min;-Customer:-13.2-min--Top-3-start-stations:-1)-Market-St-at-10th-St,-2)-San-Francisco-Caltrain-Station-2--(Townsend-St-at-4th-St),-3)-Berry-St-at-4th-St(Run-the-'Auto-fill-key-findings'-code-cell-to-populate-these-values.)">&#182;</a></h1>
 </div>
-</aside><aside class="notes">
+</div><aside class="notes">
 
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <blockquote><p>This should open a tab in your web browser where you can scroll through your presentation. Sub-slides can be accessed by pressing 'down' when viewing its parent slide. Make sure you remove all of the quote-formatted guide notes like this one before you finish your presentation! At last, you can stop the Kernel.</p>
