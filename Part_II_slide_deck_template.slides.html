@@ -14111,16 +14111,7 @@ div.jp-OutputPrompt {
 </blockquote>
 
 </div>
-</div><aside class="notes">
-
-<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<blockquote><p>Note that the above cells have been set as "Skip"-type slides. That means
-that when the notebook is rendered as http slides, those cells won't show up.</p>
-</blockquote>
-
-</div>
-</div>
-</aside><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs jp-mod-noInput ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs jp-mod-noInput ">
 
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
@@ -14177,10 +14168,7 @@ Hour with highest average median duration: 3
 
 </div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Observation">Observation<a class="anchor-link" href="#Observation">&#182;</a></h3><ul>
-<li>What I observed: summarize the plotted peaks/medians and how Subscribers vs Customers differ (e.g., Subscribers concentrated at hours X–Y with median Z; Customers peak at ...).</li>
-<li>Follow-up checks: consider showing percentile bands or log-transform of <code>duration_min</code> to handle skew; annotate commute windows.</li>
-</ul>
+<h3 id="Observation">Observation<a class="anchor-link" href="#Observation">&#182;</a></h3><p>The hourly trip counts show clear commute peaks (morning and evening) dominated by Subscriber rides, while Customer trips are relatively higher during midday and on weekends. The median-duration lines indicate Customer medians are consistently higher and more variable across hours, whereas Subscriber medians are lower and tightly concentrated around commute windows. Report group medians (not means), run stratified comparisons, and include start_hour or peak/off-peak indicators in models so commuter and leisure behaviors are not conflated.</p>
 
 </div>
 </div></section></section><section><section>
@@ -14226,10 +14214,7 @@ Hour with highest average median duration: 3
 
 </div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Observation">Observation<a class="anchor-link" href="#Observation">&#182;</a></h3><ul>
-<li>What I observed: note which weekday-hour cells have the highest median durations and whether weekends show systematically higher medians.</li>
-<li>Follow-up: overlay or show counts per cell to avoid over-interpreting cells with few observations.</li>
-</ul>
+<h3 id="Observation">Observation<a class="anchor-link" href="#Observation">&#182;</a></h3><p>The median-duration heatmap shows higher median trip durations during midday and on weekend days, while weekday commute hours (morning/evening) have notably lower medians. This pattern suggests leisure trips (midday/weekends) are longer, whereas commuter trips are shorter but more frequent. To avoid over-interpreting noisy cells, overlay or mask cells with low counts and continue using medians (not means) because the duration distribution is heavy-tailed.</p>
 
 </div>
 </div></section></section><section><section>
@@ -14267,30 +14252,36 @@ Hour with highest average median duration: 3
 
 </div></section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Observation">Observation<a class="anchor-link" href="#Observation">&#182;</a></h3><ul>
-<li>What I observed: list the top stations and the Subscriber/Customer breakdown for those stations.</li>
-<li>Follow-up: consider mapping top stations or normalizing station name variants before final reporting.</li>
+<h3 id="Observation">Observation<a class="anchor-link" href="#Observation">&#182;</a></h3><p>The top-10 bargraph shows a strong concentration of trips at a few stations, indicating demand is highly localized to downtown/transit hubs or popular destinations. Many of these busy stations are dominated by Subscribers (commuter usage), while Customers contribute more at some leisure-oriented sites—this split suggests different operational needs. For analysis and reporting, normalize or cluster stations (and map them) to avoid letting a few hubs dominate overall summaries, and clean/standardize station names before finalizing any spatial claims.</p>
+
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="Visuals-Overview">Visuals Overview<a class="anchor-link" href="#Visuals-Overview">&#182;</a></h1><ul>
+<li>Peak trip hour: 17</li>
+<li>Subscriber share of trips: 89.2%</li>
+<li>Median trip duration: <ul>
+<li>Subscriber: 8.2 min</li>
+<li>Customer: 13.2 min</li>
+</ul>
+</li>
+<li>Top 3 start stations: <ol>
+<li>Market St at 10th St</li>
+<li>Townsend St at 4th St</li>
+<li>Berry St at 4th St</li>
+</ol>
+</li>
 </ul>
 
 </div>
 </div></section></section><section><section>
 <div class="jp-Cell-inputWrapper"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Key-Findings">Key Findings<a class="anchor-link" href="#Key-Findings">&#182;</a></h3>
-<ul>
-<li>Peak trip hour: 17</li>
-<li>Subscriber share of trips: 89.2%</li>
-<li>Median trip duration:</li>
-  <ul>
-    <li>Subscriber: 8.2 min</li>
-    <li>Customer: 13.2 min</li>
-  </ul>
-<li>Top 3 start stations:</li>
-  <ul>
-    <li>1) Market St at 10th St</li>
-    <li>2) San Francisco Caltrain Station 2  (Townsend St at 4th St)</li>
-    <li>3) Berry St at 4th St</li>
-  </ul>
-<p>(Run the 'Auto-fill key findings' code cell to populate these values.)</p>
+<h1 id="Key-Findings">Key Findings<a class="anchor-link" href="#Key-Findings">&#182;</a></h1><ul>
+<li>Peak Hours: Commute windows (roughly 07–09 and 16–18) show the highest trip counts, so time-of-day strongly drives system load.</li>
+<li>Subscriber Share: Subscribers make up the majority of trips, so overall summaries and operational metrics are dominated by subscriber/commuter behavior — always report group percentages when comparing metrics.</li>
+<li>Median Durations by User Type: Customers have higher median trip durations and greater variability than Subscribers, so use medians (not means) and nonparametric tests for comparisons.</li>
+<li>Station Concentration: A small set of start stations account for a large share of trips (transit hubs / popular spots); normalize or cluster stations and standardize names before making spatial claims.</li>
+<li>Actionable Recommendations: Clean and validate extreme durations and birth-year data, mask low-count cells in heatmaps, stratify analyses by user_type or peak/off‑peak, and consider median-based models (e.g., median regression) to quantify effects robustly.</li>
 </ul>
 
 </div>
